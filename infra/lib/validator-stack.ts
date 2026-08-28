@@ -36,7 +36,7 @@ export class ValidatorStack extends Stack {
       },
       bundling: {
         minify: true,
-        // js-yaml is bundled; AWS SDK v3 is provided by the Node 20 runtime.
+        // js-yaml is bundled; AWS SDK v3 is provided by the Node 22 runtime.
         externalModules: ['@aws-sdk/*'],
       },
     });
