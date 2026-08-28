@@ -18,7 +18,6 @@ Resources:
               - Effect: Allow
                 Action: '*'
                 Resource: '*'
-
   BadTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -30,7 +29,6 @@ Resources:
       KeySchema:
         - AttributeName: id
           KeyType: HASH
-
   BadLambda:
     Type: AWS::Lambda::Function
     Properties:
