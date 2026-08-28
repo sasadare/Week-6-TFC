@@ -1,0 +1,39 @@
+name: Deploy CFN Validator
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on:
+      - codebuild-week6-runner-${{ github.run_id }}-${{ github.run_attempt }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        working-directory: infra
+        run: npm ci
+
+      - name: Build
+        working-directory: infra
+        run: npm run build
+
+      - name: Test
+        working-directory: infra
+        run: npx jest
+
+      - name: CDK Synth
+        working-directory: infra
+        run: npx cdk synth -c githubOwner=sasadare -c githubRepo=week-6
+
+      - name: CDK Deploy
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        working-directory: infra
+        run: npx cdk deploy ValidatorStack --require-approval never
